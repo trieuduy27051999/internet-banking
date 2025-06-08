@@ -8,8 +8,14 @@
     "dev": "nodemon server.js",
     "seed": "node seeders/index.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "internet-banking",
+    "nodejs",
+    "express",
+    "jwt",
+    "authentication"
+  ],
+  "author": "1712390",
   "license": "ISC",
   "description": "",
   "dependencies": {
@@ -27,7 +33,10 @@
     "mysql2": "^3.14.1",
     "node-rsa": "^1.1.1",
     "nodemailer": "^7.0.3",
-    "sequelize": "^6.37.7"
+    "sequelize": "^6.37.7",
+    "axios": "^1.6.0",
+    "crypto": "^1.0.1",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "concurrently": "^9.1.2",
