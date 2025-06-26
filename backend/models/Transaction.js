@@ -62,28 +62,28 @@ const Transaction = sequelize.define('Transaction', {
 });
 
 // Update balance after transaction completion
-Transaction.afterUpdate(async (transaction, options) => {
-  if (transaction.status === 'completed' && transaction._previousDataValues.status !== 'completed') {
-    const Account = require('./Account');
+// Transaction.afterUpdate(async (transaction, options) => {
+//   if (transaction.status === 'completed' && transaction._previousDataValues.status !== 'completed') {
+//     const Account = require('./Account');
     
-    // Deduct from sender account
-    if (transaction.from_account_id) {
-      const senderFee = transaction.fee_payer === 'sender' ? transaction.fee : 0;
-      await Account.decrement('balance', {
-        by: parseFloat(transaction.amount) + parseFloat(senderFee),
-        where: { id: transaction.from_account_id }
-      });
-    }
+//     // Deduct from sender account
+//     if (transaction.from_account_id) {
+//       const senderFee = transaction.fee_payer === 'sender' ? transaction.fee : 0;
+//       await Account.decrement('balance', {
+//         by: parseFloat(transaction.amount) + parseFloat(senderFee),
+//         where: { id: transaction.from_account_id }
+//       });
+//     }
     
-    // Add to receiver account
-    if (transaction.to_account_id) {
-      const receiverFee = transaction.fee_payer === 'receiver' ? transaction.fee : 0;
-      await Account.increment('balance', {
-        by: parseFloat(transaction.amount) - parseFloat(receiverFee),
-        where: { id: transaction.to_account_id }
-      });
-    }
-  }
-});
+//     // Add to receiver account
+//     if (transaction.to_account_id) {
+//       const receiverFee = transaction.fee_payer === 'receiver' ? transaction.fee : 0;
+//       await Account.increment('balance', {
+//         by: parseFloat(transaction.amount) - parseFloat(receiverFee),
+//         where: { id: transaction.to_account_id }
+//       });
+//     }
+//   }
+// });
 
 module.exports = Transaction;

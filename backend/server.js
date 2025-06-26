@@ -17,7 +17,7 @@ const accountRoutes = require('./routes/account');
 const externalRoutes = require('./routes/external');
 const apiLogRoutes = require('./routes/apiLog');
 const notificationRoutes = require('./routes/notification');
-const transactionRoutes = require('./routes/transaction'); // Thêm dòng này
+const transactionRoutes = require('./routes/transaction');
 
 // Routes setup
 app.use('/api/auth', loginLimiter, authRoutes);
@@ -26,7 +26,7 @@ app.use('/api/accounts', accountRoutes);
 app.use('/api/external', externalRoutes); // Thêm dòng này
 app.use('/api/api-logs', apiLogRoutes);
 app.use('/api/notifications', notificationRoutes);
-app.use('/api/transactions', transactionRoutes); // Thêm dòng này
+app.use('/api/transactions', transactionRoutes);
 
 // Route kiểm tra server sống
 app.get('/', (req, res) => {

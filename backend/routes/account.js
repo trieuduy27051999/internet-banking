@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const accountController = require('../controllers/accountController');
+const transactionController = require('../controllers/transactionController');
 const { authenticateJWT, authorizeRoles } = require('../middleware/auth');
 
 // Lấy tất cả tài khoản của user (chính chủ, admin, employee)
@@ -19,7 +20,7 @@ router.patch('/:id/toggle-active', authenticateJWT, authorizeRoles('employee', '
 router.get('/:id/balance', authenticateJWT, accountController.getBalance);
 
 // Lấy lịch sử giao dịch (có phân trang)
-router.get('/:id/transactions', authenticateJWT, accountController.getTransactions);
+router.get('/:id/transactions', authenticateJWT, transactionController.getByAccount);
 
 // Lấy tất cả tài khoản (chỉ admin/employee)
 router.get(

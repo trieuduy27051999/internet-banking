@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../api/axios';
 
-function TransactionHistory() {
+function TransactionHistory({ accountId }) {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   useEffect(() => {
     fetchHistory();
-  }, []);
+    // eslint-disable-next-line
+  }, [accountId]);
 
   const fetchHistory = async () => {
     setLoading(true);
     setError('');
     try {
-      const res = await axios.get('/transactions');
+      const res = await axios.get(`/accounts/${accountId}/transactions`);
       setTransactions(res.data);
     } catch {
       setError('Không thể tải lịch sử giao dịch.');
@@ -43,21 +44,22 @@ function TransactionHistory() {
             </tr>
           </thead>
           <tbody>
-            {transactions.map(tx => (
-              <tr key={tx.id}>
-                <td>{tx.id}</td>
-                <td>{tx.transaction_type}</td>
-                <td>{tx.amount}</td>
-                <td>{tx.fee}</td>
-                <td>{tx.fee_payer}</td>
-                <td>{tx.content}</td>
-                <td>{tx.completed_at ? new Date(tx.completed_at).toLocaleString() : ''}</td>
-                <td>{tx.status}</td>
-              </tr>
-            ))}
-            {transactions.length === 0 && (
+            {transactions.length > 0 ? (
+              transactions.map(tx => (
+                <tr key={tx.id}>
+                  <td>{tx.id}</td>
+                  <td>{tx.transaction_type}</td>
+                  <td>{tx.amount}</td>
+                  <td>{tx.fee}</td>
+                  <td>{tx.fee_payer}</td>
+                  <td>{tx.content}</td>
+                  <td>{tx.completed_at ? new Date(tx.completed_at).toLocaleString() : ''}</td>
+                  <td>{tx.status}</td>
+                </tr>
+              ))
+            ) : (
               <tr>
-                <td colSpan={8}>Không có giao dịch nào.</td>
+                <td colSpan={8}>Chưa có giao dịch nào.</td>
               </tr>
             )}
           </tbody>

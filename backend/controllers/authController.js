@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { Op } = require('sequelize');
 const sendOtpToEmail = require('../utils/sendOtp');
+const { sendOtpMail } = require('../utils/mailer');
 
 // JWT config
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
@@ -43,6 +44,7 @@ exports.register = async (req, res) => {
 
     // Gửi email thật
     await sendOtpToEmail(email, otp);
+    await sendOtpMail(user.email, otp);
 
     res.status(201).json({ message: 'User registered. OTP sent to email.', user: { ...user.toJSON(), password_hash: undefined } });
   } catch (err) {
