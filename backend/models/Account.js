@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
+const User = require('./User');
 
 const Account = sequelize.define('Account', {
   id: {
@@ -9,7 +10,7 @@ const Account = sequelize.define('Account', {
   },
   user_id: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
   },
   account_number: {
     type: DataTypes.STRING(20),
@@ -45,5 +46,9 @@ Account.beforeCreate(async (account, options) => {
     account.account_number = `100100${account.user_id.toString().padStart(4, '0')}`;
   }
 });
+
+// Thiết lập quan hệ
+Account.belongsTo(User, { foreignKey: 'user_id' });
+User.hasMany(Account, { foreignKey: 'user_id' });
 
 module.exports = Account;
