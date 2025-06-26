@@ -127,7 +127,7 @@ CREATE TABLE debt_reminders (
 CREATE TABLE otp_codes (
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT NOT NULL,
-    code VARCHAR(6) NOT NULL,
+    code VARCHAR(20) NOT NULL,
     type ENUM('transfer', 'debt_payment', 'password_reset') NOT NULL,
     reference_id VARCHAR(50),
     expires_at TIMESTAMP NOT NULL,

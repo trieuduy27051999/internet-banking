@@ -31,7 +31,7 @@ function Transactions() {
       setError('');
       try {
         const res = await axios.get(`/accounts/${selectedAccount}/transactions?limit=50&page=1`);
-        setTransactions(res.data.transactions || []);
+        setTransactions(res.data);
       } catch {
         setError('Không thể tải lịch sử giao dịch.');
       }
@@ -70,24 +70,33 @@ function Transactions() {
           </tr>
         </thead>
         <tbody>
-          {transactions.map(tran => (
-            <tr key={tran.id}>
-              <td>{tran.id}</td>
-              <td>{tran.type}</td>
-              <td>{tran.amount?.toLocaleString('vi-VN')} đ</td>
-              <td>
-                {tran.from_account_id === Number(selectedAccount)
-                  ? tran.to_account_number
-                  : tran.from_account_number}
-              </td>
-              <td>
-                {tran.created_at
-                  ? new Date(tran.created_at).toLocaleString()
-                  : ''}
-              </td>
-              <td>{tran.description}</td>
-            </tr>
-          ))}
+          {transactions.map(tran => {
+            // Xác định id tài khoản đối ứng
+            const doiUngId = tran.from_account_id === Number(selectedAccount)
+              ? tran.to_account_id
+              : tran.from_account_id;
+            // Tìm số tài khoản đối ứng trong danh sách accounts
+            const doiUng = accounts.find(acc => acc.id === doiUngId);
+            return (
+              <tr key={tran.id}>
+                <td>{tran.id}</td>
+                <td>{tran.transaction_type}</td>
+                <td>{Number(tran.amount).toLocaleString('vi-VN')} đ</td>
+                <td>
+                  {doiUng
+                    ? doiUng.account_number // Nếu tìm thấy account đối ứng, hiển thị số tài khoản
+                    : (doiUngId ? `#${doiUngId}` : '') // Nếu không tìm thấy, hiển thị id hoặc để trống
+                  }
+                </td>
+                <td>
+                  {tran.created_at
+                    ? new Date(tran.created_at).toLocaleString()
+                    : ''}
+                </td>
+                <td>{tran.content}</td>
+              </tr>
+            );
+          })}
           {transactions.length === 0 && (
             <tr>
               <td colSpan={6}>Chưa có giao dịch nào.</td>
